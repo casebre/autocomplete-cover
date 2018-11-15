@@ -17,32 +17,35 @@ public class AutocompleteInsurerAdapter extends ArrayAdapter<String> {
 
     private Context context;
     private int resource;
-    private List<String> insurerList;
+
+    public static class ViewHolder {
+        TextView textViewItem;
+    }
 
     public AutocompleteInsurerAdapter(@NonNull Context context, int resource, @NonNull List<String> objects) {
         super(context, resource, objects);
-        this.context = context;
         this.resource = resource;
-        this.insurerList = objects;
-    }
-
-    @Override
-    public int getCount() {
-        return insurerList.size();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         try{
+
+            ViewHolder viewHolder;
+            String insurerName = getItem(position);
+
             if(convertView == null){
-                LayoutInflater inflater = (LayoutInflater)context.getSystemService(
+                LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(
                         Activity.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(resource, parent, false);
+                viewHolder = new ViewHolder();
+                viewHolder.textViewItem = convertView.findViewById(R.id.text_view_item);
+                convertView.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
             }
 
-            String insurerName = insurerList.get(position);
-            TextView textViewItem = convertView.findViewById(R.id.text_view_item);
-            textViewItem.setText(insurerName);
+            viewHolder.textViewItem.setText(insurerName);
 
         } catch (NullPointerException e) {
             e.printStackTrace();

@@ -25,6 +25,7 @@ import butterknife.OnClick;
 public class CarrierFragment extends BaseFragment<CarrierViewModel> {
 
     private final static String ARG_ADDRESS = "ADDRESS";
+    private static final int THRESHOLD = 3;
 
     @BindView(R.id.auto_complete_carrier)
     AutoCompleteTextView autoCompleteTextView;
@@ -61,7 +62,7 @@ public class CarrierFragment extends BaseFragment<CarrierViewModel> {
     }
 
     private void setupAutoCompleteTextView() {
-        autoCompleteTextView.setThreshold(3);
+        autoCompleteTextView.setThreshold(THRESHOLD);
         autoCompleteTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -69,8 +70,10 @@ public class CarrierFragment extends BaseFragment<CarrierViewModel> {
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                viewModel.setCarrierInput(charSequence.toString(), getContext());
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int count) {
+                if(count >= THRESHOLD) {
+                    viewModel.setCarrierInput(charSequence.toString(), getContext());
+                }
             }
 
             @Override

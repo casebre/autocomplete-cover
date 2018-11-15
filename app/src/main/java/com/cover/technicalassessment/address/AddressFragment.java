@@ -25,6 +25,7 @@ import butterknife.OnClick;
 
 public class AddressFragment extends BaseFragment<AddressViewModel> {
 
+    private static final int THRESHOLD = 3;
     @BindView(R.id.auto_complete_address)
     AutoCompleteTextView autoCompleteTextView;
 

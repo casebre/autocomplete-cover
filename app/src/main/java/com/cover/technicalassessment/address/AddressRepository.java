@@ -38,7 +38,9 @@ public class AddressRepository {
         webservice.getAddress(address, ADDRESS_TYPE_TAG, API_KEY).enqueue(new Callback<CustomResponse>() {
             @Override
             public void onResponse(Call<CustomResponse> call, Response<CustomResponse> response) {
-                data.postValue(response.body().predictions);
+                if(response.body() != null) {
+                    data.postValue(response.body().predictions);
+                }
             }
 
             @Override

@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.cover.technicalassessment.utils.StringValidationUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
@@ -14,7 +15,6 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -33,10 +33,13 @@ public class CarrierRepository {
         JsonParser parser = new JsonParser();
         List<String> insurers = getArrayListFromJson(parser.parse(json).getAsJsonObject().getAsJsonArray(MEMBER_NAME_TAG));
 
-        List<String> filtered = insurers
+        List<String> filtered = StringValidationUtil.filterStringList(insurers, carrier);
+
+        /*List<String> filtered = insurers
                 .stream()
                 .filter(s -> s.toLowerCase().contains(carrier))
                 .collect(Collectors.toList());
+                */
 
         data.setValue(filtered);
 
@@ -49,10 +52,12 @@ public class CarrierRepository {
         JsonParser parser = new JsonParser();
         List<String> insurers = getArrayListFromJson(parser.parse(json).getAsJsonObject().getAsJsonArray(MEMBER_NAME_TAG));
 
-        Boolean isPresent = insurers.stream()
+        Boolean isPresent = StringValidationUtil.matchesAny(insurers, carrier);
+        /*Boolean isPresent = insurers.stream()
                 .filter(s -> s.equalsIgnoreCase(carrier))
                 .findAny()
                 .isPresent();
+                */
 
         data.setValue(isPresent);
 

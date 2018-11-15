@@ -16,32 +16,23 @@ import java.util.List;
 
 public class AutocompleteCustomAdapter extends ArrayAdapter<Address> {
 
-    private Context context;
     private int resource;
-    private List<Address> addressList;
 
     public AutocompleteCustomAdapter(@NonNull Context context, int resource, @NonNull List<Address> objects) {
         super(context, resource, objects);
-        this.context = context;
         this.resource = resource;
-        this.addressList = objects;
-    }
-
-    @Override
-    public int getCount() {
-        return addressList.size();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         try{
             if(convertView == null){
-                LayoutInflater inflater = (LayoutInflater)context.getSystemService(
+                LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(
                         Activity.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(resource, parent, false);
             }
 
-            Address address = addressList.get(position);
+            Address address = getItem(position);
             TextView textViewItem = convertView.findViewById(R.id.text_view_item);
             textViewItem.setText(address.getDescription());
 
